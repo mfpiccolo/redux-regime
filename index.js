@@ -1,9 +1,9 @@
-import resourceReducer from "./src/resourceReducer";
+import resourceReducer from "./lib/resourceReducer";
 import {
   normalizeAndMergePayload,
   dispatchUpdateResourcesByID
-} from "./src/actions";
-import BaseQuery from "./src/BaseQuery";
+} from "./lib/actions";
+import BaseQuery from "./lib/BaseQuery";
 
 export {
   normalizeAndMergePayload,

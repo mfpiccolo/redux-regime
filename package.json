@@ -4,7 +4,8 @@
   "description": "A (Redux) system or planned way of doing things, especially one imposed from above.",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "build": "node_modules/babel-cli/bin/babel.js src --out-dir lib"
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,12 @@
     "graphql-normalizr": "^1.0.2",
     "json-api-normalizer": "^0.4.10",
     "pluralize": "^7.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1"
   }
 }
