@@ -18,5 +18,12 @@
   "bugs": {
     "url": "https://github.com/mfpiccolo/redux-regime/issues"
   },
-  "homepage": "https://github.com/mfpiccolo/redux-regime#readme"
+  "homepage": "https://github.com/mfpiccolo/redux-regime#readme",
+  "dependencies": {
+    "deepmerge": "^2.1.1",
+    "graphql": "^0.13.2",
+    "graphql-normalizr": "^1.0.2",
+    "json-api-normalizer": "^0.4.10",
+    "pluralize": "^7.0.0"
+  }
 }
