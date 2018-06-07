@@ -22,7 +22,7 @@
   "homepage": "https://github.com/mfpiccolo/redux-regime#readme",
   "dependencies": {
     "deepmerge": "^2.1.1",
-    "graphql-normalizr": "^1.0.2",
+    "graphql-normalizr": "https://github.com/mfpiccolo/graphql-normalizr",
     "json-api-normalizer": "^0.4.10",
     "pluralize": "^7.0.0"
   },

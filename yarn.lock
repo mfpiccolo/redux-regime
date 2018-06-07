@@ -1005,6 +1005,12 @@ graphql-normalizr@^1.0.2:
   dependencies:
     pluralize "7.0.0"
 
+"graphql-normalizr@https://github.com/mfpiccolo/graphql-normalizr":
+  version "1.0.2"
+  resolved "https://github.com/mfpiccolo/graphql-normalizr#a6fde336e84fcaf3e781064da331edd9f06c7a56"
+  dependencies:
+    pluralize "7.0.0"
+
 has-ansi@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/has-ansi/-/has-ansi-2.0.0.tgz#34f5049ce1ecdf2b0649af3ef24e45ed35416d91"
