@@ -1,0 +1,22 @@
+{
+  "name": "redux-regime",
+  "version": "0.1.0",
+  "description": "A (Redux) system or planned way of doing things, especially one imposed from above.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mfpiccolo/redux-regime.git"
+  },
+  "keywords": [
+    "redux"
+  ],
+  "author": "mfpiccolo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mfpiccolo/redux-regime/issues"
+  },
+  "homepage": "https://github.com/mfpiccolo/redux-regime#readme"
+}
