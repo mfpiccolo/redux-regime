@@ -23,3 +23,92 @@ Object {
   "name": "Onboarding Rest",
 }
 `;
+
+exports[`BaseQUery hasMany()  1`] = `
+Array [
+  Object {
+    "description": "Onboarding REST 1",
+    "id": 1,
+  },
+  Object {
+    "description": "Onboarding REST 2",
+    "id": 2,
+  },
+  Object {
+    "description": "Project Audit Rest 3",
+    "id": 3,
+  },
+  Object {
+    "description": "Project Audit Rest 4",
+    "id": 4,
+  },
+  Object {
+    "description": "QA Checklist Rest 5",
+    "id": 5,
+  },
+  Object {
+    "description": "QA Checklist Rest 6",
+    "id": 6,
+  },
+]
+`;
+
+exports[`BaseQUery includes()  1`] = `
+Array [
+  Object {
+    "id": 1,
+    "name": "Onboarding Rest",
+    "tasks": Array [
+      Object {
+        "description": "Onboarding REST 1",
+        "id": 1,
+        "type": "tasks",
+      },
+      Object {
+        "description": "Onboarding REST 2",
+        "id": 2,
+        "type": "tasks",
+      },
+    ],
+  },
+  Object {
+    "id": 2,
+    "name": "Project Audit Rest",
+    "tasks": Array [
+      Object {
+        "description": "Project Audit Rest 3",
+        "id": 3,
+        "type": "tasks",
+      },
+      Object {
+        "description": "Project Audit Rest 4",
+        "id": 4,
+        "type": "tasks",
+      },
+    ],
+  },
+  Object {
+    "id": 3,
+    "name": "QA Checklist Rest",
+    "tasks": Array [
+      Object {
+        "description": "QA Checklist Rest 5",
+        "id": 5,
+        "type": "tasks",
+      },
+      Object {
+        "description": "QA Checklist Rest 6",
+        "id": 6,
+        "type": "tasks",
+      },
+    ],
+  },
+]
+`;
+
+exports[`BaseQUery where()  1`] = `
+Object {
+  "id": 2,
+  "name": "Project Audit Rest",
+}
+`;

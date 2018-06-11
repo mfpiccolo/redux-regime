@@ -1,13 +1,11 @@
-import BaseQuery, { QueryObject } from "../BaseQuery";
+import BaseQuery, { QueryObject } from "../src/BaseQuery";
 
 import jsonApiNormalize from "json-api-normalizer";
 import { GraphQLNormalizr } from "graphql-normalizr";
 
-import resources from "../fixtrues/checklistsAndTasksNormalized";
-
-class Checklist extends BaseQuery {
-  static hasMany = ["tasks"];
-}
+import resources
+  from "../__testHelpers__/fixtrues/checklistsAndTasksNormalized";
+import { Checklist, Task } from "../__testHelpers__/models";
 
 describe("BaseQUery", () => {
   test("query returns a QueryObject", () => {

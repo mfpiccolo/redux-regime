@@ -3,15 +3,23 @@ import pluralize from "pluralize";
 export default class BaseQuery {
   static query(resources) {
     return new QueryObject(
+      this,
       pluralize(this.name.toLowerCase()),
       resources,
-      this.hasMany
+      this.hasMany,
+      this.belongsTo
     );
   }
 }
 
 export class QueryObject {
-  constructor(resourceName, resources, hasManyRelationships = []) {
+  constructor(
+    klass,
+    resourceName,
+    resources,
+    hasManyRelationships = [],
+    belongsTo = []
+  ) {
     this.resourceName = resourceName;
     this.resources = resources;
     this.currentIncludes = [];
