@@ -2,15 +2,15 @@
 
 exports[`BaseQUery all()  1`] = `
 Array [
-  Object {
+  Checklist {
     "id": 1,
     "name": "Onboarding Rest",
   },
-  Object {
+  Checklist {
     "id": 2,
     "name": "Project Audit Rest",
   },
-  Object {
+  Checklist {
     "id": 3,
     "name": "QA Checklist Rest",
   },
@@ -18,88 +18,53 @@ Array [
 `;
 
 exports[`BaseQUery find()  1`] = `
-Object {
+Checklist {
   "id": 1,
   "name": "Onboarding Rest",
 }
 `;
 
-exports[`BaseQUery hasMany()  1`] = `
-Array [
-  Object {
-    "description": "Onboarding REST 1",
-    "id": 1,
-  },
-  Object {
-    "description": "Onboarding REST 2",
-    "id": 2,
-  },
-  Object {
-    "description": "Project Audit Rest 3",
-    "id": 3,
-  },
-  Object {
-    "description": "Project Audit Rest 4",
-    "id": 4,
-  },
-  Object {
-    "description": "QA Checklist Rest 5",
-    "id": 5,
-  },
-  Object {
-    "description": "QA Checklist Rest 6",
-    "id": 6,
-  },
-]
-`;
-
 exports[`BaseQUery includes()  1`] = `
 Array [
-  Object {
+  Checklist {
     "id": 1,
     "name": "Onboarding Rest",
     "tasks": Array [
-      Object {
+      Checklist {
         "description": "Onboarding REST 1",
         "id": 1,
-        "type": "tasks",
       },
-      Object {
+      Checklist {
         "description": "Onboarding REST 2",
         "id": 2,
-        "type": "tasks",
       },
     ],
   },
-  Object {
+  Checklist {
     "id": 2,
     "name": "Project Audit Rest",
     "tasks": Array [
-      Object {
+      Checklist {
         "description": "Project Audit Rest 3",
         "id": 3,
-        "type": "tasks",
       },
-      Object {
+      Checklist {
         "description": "Project Audit Rest 4",
         "id": 4,
-        "type": "tasks",
       },
     ],
   },
-  Object {
+  Checklist {
     "id": 3,
     "name": "QA Checklist Rest",
     "tasks": Array [
-      Object {
+      Checklist {
         "description": "QA Checklist Rest 5",
         "id": 5,
-        "type": "tasks",
       },
-      Object {
+      Checklist {
         "description": "QA Checklist Rest 6",
         "id": 6,
-        "type": "tasks",
       },
     ],
   },
@@ -107,7 +72,7 @@ Array [
 `;
 
 exports[`BaseQUery where()  1`] = `
-Object {
+Checklist {
   "id": 2,
   "name": "Project Audit Rest",
 }

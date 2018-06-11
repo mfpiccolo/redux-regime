@@ -10,27 +10,34 @@ export default class BaseQuery {
       this.belongsTo
     );
   }
+
+  constructor(attributes, hasMany = [], belongsTo = []) {
+    Object.entries(attributes).forEach(([key, value]) => {
+      this[key] = value;
+    });
+    // hasMany.forEach(relationship => {
+    //   this[relationship] = () => {
+    //     //needs to return a QueryObject for that relationship with the query for where(id: id)
+    //   };
+    // });
+
+    belongsTo.forEach(relationship => {
+      this[relationship] = () => {
+        // needs to return the related model
+      };
+    });
+  }
 }
 
 export class QueryObject {
-  constructor(
-    klass,
-    resourceName,
-    resources,
-    hasManyRelationships = [],
-    belongsTo = []
-  ) {
+  constructor(klass, resourceName, resources, hasMany = [], belongsTo = []) {
+    this.klass = klass;
     this.resourceName = resourceName;
     this.resources = resources;
     this.currentIncludes = [];
     this.currentResources = {};
-
-    hasManyRelationships.forEach(relationship => {
-      QueryObject.prototype[relationship] = () => {
-        this.resourceName = relationship;
-        return this;
-      };
-    });
+    this.hasMany = hasMany;
+    this.belongsTo = belongsTo;
   }
 
   all() {
@@ -39,13 +46,10 @@ export class QueryObject {
   }
 
   find(id) {
-    const resource =
+    const { attributes } =
       this.resources[this.resourceName] &&
       this.resources[this.resourceName][id];
-    if (resource) {
-      this.currentResources = { [id]: resource };
-    }
-    return this;
+    return this._convertToModel({ id, ...attributes });
   }
 
   where(params) {
@@ -62,7 +66,7 @@ export class QueryObject {
       .query(this.resources)
       .where(params)
       .includes([resourceName])
-      .execute()
+      .getData()
       .reduce((newResource, relatedResource) => {
         const relation = relatedResource[resourceName];
         relation.forEach(({ type, id, ...attributes }) => {
@@ -79,15 +83,25 @@ export class QueryObject {
     return this;
   }
 
-  execute() {
-    const { currentIncludes, currentResources, _flattenRelationships } = this;
+  models() {
+    return this._reduceCurrentResources();
+  }
+
+  _reduceCurrentResources() {
+    const {
+      currentIncludes,
+      currentResources,
+      resources,
+      _flattenRelationships
+    } = this;
+
     return Object.values(
       currentResources
     ).map(({ id, attributes, relationships, types, links }) => {
-      const newFormattedResource = { id, ...attributes };
+      const newFormattedResource = this._convertToModel({ id, ...attributes });
 
       if (!currentIncludes.length) return newFormattedResource;
-      return {
+      return this._convertToModel({
         ...newFormattedResource,
         ..._flattenRelationships(
           relationships
@@ -97,19 +111,24 @@ export class QueryObject {
             nextRelationshipObjects[type] = [];
           }
 
-          if (!this.resources[type]) return nextRelationshipObjects;
-          const relationData = this.resources[type][id];
+          if (!resources[type]) return nextRelationshipObjects;
+          const relationData = resources[type][id];
           if (!relationData) return nextRelationshipObjects;
-          nextRelationshipObjects[type].push({
-            type,
-            id,
-            ...relationData.attributes
-          });
+          nextRelationshipObjects[type].push(
+            this._convertToModel({
+              id,
+              ...relationData.attributes
+            })
+          );
 
           return nextRelationshipObjects;
         }, {})
-      };
+      });
     });
+  }
+
+  _convertToModel(resource) {
+    return new this.klass(resource, this.hasMany, this.belongsTo);
   }
 
   // Private

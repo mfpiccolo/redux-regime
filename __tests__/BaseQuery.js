@@ -14,13 +14,13 @@ describe("BaseQUery", () => {
 
   describe("all()", () => {
     test("", () => {
-      expect(Checklist.query(resources).all().execute()).toMatchSnapshot();
+      expect(Checklist.query(resources).all().models()).toMatchSnapshot();
     });
   });
 
   describe("find()", () => {
     test("", () => {
-      const checklist = Checklist.query(resources).find(1).execute()[0];
+      const checklist = Checklist.query(resources).find(1);
       expect(checklist.id).toEqual(1);
       expect(checklist).toMatchSnapshot();
     });
@@ -30,7 +30,7 @@ describe("BaseQUery", () => {
     test("", () => {
       const checklist = Checklist.query(resources)
         .where({ name: "Project Audit Rest" })
-        .execute()[0];
+        .models()[0];
       expect(checklist.id).toEqual(2);
       expect(checklist).toMatchSnapshot();
     });
@@ -41,15 +41,22 @@ describe("BaseQUery", () => {
       const checklists = Checklist.query(resources)
         .all()
         .includes(["tasks"])
-        .execute();
+        .models();
       expect(checklists).toMatchSnapshot();
     });
   });
 
-  describe("hasMany()", () => {
-    test("", () => {
-      const checklists = Checklist.query(resources).tasks().all().execute();
-      expect(checklists).toMatchSnapshot();
-    });
-  });
+  // describe("hasMany()", () => {
+  //   test("", () => {
+  //     const checklists = Checklist.query(resources).find(1).tasks().models();
+  //     expect(checklists).toMatchSnapshot();
+  //   });
+  // });
+
+  // describe("belongsTo()", () => {
+  //   test("", () => {
+  //     const checklist = Task.query(resources).checklist().models();
+  //     expect(checklists).toMatchSnapshot();
+  //   });
+  // });
 });
