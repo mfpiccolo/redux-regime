@@ -2,16 +2,27 @@ import pluralize from "pluralize";
 
 export default class BaseQuery {
   static query(resources) {
-    return new QueryObject(pluralize(this.name.toLowerCase()), resources);
+    return new QueryObject(
+      pluralize(this.name.toLowerCase()),
+      resources,
+      this.hasMany
+    );
   }
 }
 
 export class QueryObject {
-  constructor(resourceName, resources) {
+  constructor(resourceName, resources, hasManyRelationships = []) {
     this.resourceName = resourceName;
     this.resources = resources;
     this.currentIncludes = [];
     this.currentResources = {};
+
+    hasManyRelationships.forEach(relationship => {
+      QueryObject.prototype[relationship] = () => {
+        this.resourceName = relationship;
+        return this;
+      };
+    });
   }
 
   all() {

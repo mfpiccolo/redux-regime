@@ -24,6 +24,35 @@ Object {
 }
 `;
 
+exports[`BaseQUery hasMany()  1`] = `
+Array [
+  Object {
+    "description": "Onboarding REST 1",
+    "id": 1,
+  },
+  Object {
+    "description": "Onboarding REST 2",
+    "id": 2,
+  },
+  Object {
+    "description": "Project Audit Rest 3",
+    "id": 3,
+  },
+  Object {
+    "description": "Project Audit Rest 4",
+    "id": 4,
+  },
+  Object {
+    "description": "QA Checklist Rest 5",
+    "id": 5,
+  },
+  Object {
+    "description": "QA Checklist Rest 6",
+    "id": 6,
+  },
+]
+`;
+
 exports[`BaseQUery includes()  1`] = `
 Array [
   Object {

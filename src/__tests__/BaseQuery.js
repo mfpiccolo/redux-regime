@@ -5,7 +5,9 @@ import { GraphQLNormalizr } from "graphql-normalizr";
 
 import resources from "../fixtrues/checklistsAndTasksNormalized";
 
-class Checklist extends BaseQuery {}
+class Checklist extends BaseQuery {
+  static hasMany = ["tasks"];
+}
 
 describe("BaseQUery", () => {
   test("query returns a QueryObject", () => {
@@ -42,6 +44,13 @@ describe("BaseQUery", () => {
         .all()
         .includes(["tasks"])
         .execute();
+      expect(checklists).toMatchSnapshot();
+    });
+  });
+
+  describe("hasMany()", () => {
+    test("", () => {
+      const checklists = Checklist.query(resources).tasks().all().execute();
       expect(checklists).toMatchSnapshot();
     });
   });
