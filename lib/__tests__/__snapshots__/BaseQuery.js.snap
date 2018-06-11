@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BaseQUery all()  1`] = `
+Array [
+  Object {
+    "id": 1,
+    "name": "Onboarding Rest",
+  },
+  Object {
+    "id": 2,
+    "name": "Project Audit Rest",
+  },
+  Object {
+    "id": 3,
+    "name": "QA Checklist Rest",
+  },
+]
+`;
+
+exports[`BaseQUery find()  1`] = `
+Object {
+  "id": 1,
+  "name": "Onboarding Rest",
+}
+`;

@@ -96,7 +96,6 @@ export class QueryObject {
   // Private
 
   _flattenRelationships(relationships) {
-    // {tasks: {data:[]}}
     return Object.values(
       relationships
     ).reduce((nextRelationships, { data }) => {

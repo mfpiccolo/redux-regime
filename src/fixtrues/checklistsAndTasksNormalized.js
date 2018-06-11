@@ -6,7 +6,7 @@ export default {
       attributes: { name: "Onboarding Rest" },
       links: { self: "http://example.com/checklists/1" },
       relationships: {
-        tasks: [{ id: 1, type: "tasks" }, { id: 2, type: "tasks" }]
+        tasks: { data: [{ id: 1, type: "tasks" }, { id: 2, type: "tasks" }] }
       }
     },
     2: {
@@ -15,7 +15,7 @@ export default {
       attributes: { name: "Project Audit Rest" },
       links: { self: "http://example.com/checklists/2" },
       relationships: {
-        tasks: [{ id: 3, type: "tasks" }, { id: 4, type: "tasks" }]
+        tasks: { data: [{ id: 3, type: "tasks" }, { id: 4, type: "tasks" }] }
       }
     },
     3: {
@@ -24,7 +24,7 @@ export default {
       attributes: { name: "QA Checklist Rest" },
       links: { self: "http://example.com/checklists/3" },
       relationships: {
-        tasks: [{ id: 5, type: "tasks" }, { id: 6, type: "tasks" }]
+        tasks: { data: [{ id: 5, type: "tasks" }, { id: 6, type: "tasks" }] }
       }
     }
   },

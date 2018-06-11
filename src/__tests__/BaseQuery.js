@@ -28,31 +28,21 @@ describe("BaseQUery", () => {
 
   describe("where()", () => {
     test("", () => {
-      expect(Checklist.query()).toBeInstanceOf(QueryObject);
-    });
-  });
-
-  describe("whereRelated()", () => {
-    test("", () => {
-      expect(Checklist.query()).toBeInstanceOf(QueryObject);
-    });
-  });
-
-  describe("whereRelated()", () => {
-    test("", () => {
-      expect(Checklist.query()).toBeInstanceOf(QueryObject);
+      const checklist = Checklist.query(resources)
+        .where({ name: "Project Audit Rest" })
+        .execute()[0];
+      expect(checklist.id).toEqual(2);
+      expect(checklist).toMatchSnapshot();
     });
   });
 
   describe("includes()", () => {
     test("", () => {
-      expect(Checklist.query()).toBeInstanceOf(QueryObject);
-    });
-  });
-
-  describe("execute()", () => {
-    test("", () => {
-      expect(Checklist.query()).toBeInstanceOf(QueryObject);
+      const checklists = Checklist.query(resources)
+        .all()
+        .includes(["tasks"])
+        .execute();
+      expect(checklists).toMatchSnapshot();
     });
   });
 });

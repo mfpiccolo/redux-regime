@@ -4,7 +4,7 @@
   "description": "A (Redux) system or planned way of doing things, especially one imposed from above.",
   "main": "index.js",
   "scripts": {
-    "test": "test",
+    "test": "jest",
     "build": "node_modules/babel-cli/bin/babel.js src --out-dir lib"
   },
   "repository": {
@@ -22,7 +22,8 @@
   "homepage": "https://github.com/mfpiccolo/redux-regime#readme",
   "dependencies": {
     "deepmerge": "^2.1.1",
-    "graphql-normalizr": "https://github.com/mfpiccolo/graphql-normalizr",
+    "graphql-normalizr": "github:mfpiccolo/graphql-normalizr#d01cfc4730a4f8cc8d38ba4825449f5e15fd06c3",
+    "jest": "^23.1.0",
     "json-api-normalizer": "^0.4.10",
     "pluralize": "^7.0.0"
   },
