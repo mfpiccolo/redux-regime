@@ -15,11 +15,15 @@ export default class BaseQuery {
     Object.entries(attributes).forEach(([key, value]) => {
       this[key] = value;
     });
-    // hasMany.forEach(relationship => {
-    //   this[relationship] = () => {
-    //     //needs to return a QueryObject for that relationship with the query for where(id: id)
-    //   };
-    // });
+
+    hasMany.forEach(relationship => {
+      const relationshipKey = pluralize(relationship.name.toLowerCase());
+      if (!this[relationshipKey]) {
+        this[relationshipKey] = () => {
+          return 1;
+        };
+      }
+    });
 
     belongsTo.forEach(relationship => {
       this[relationship] = () => {
@@ -46,10 +50,17 @@ export class QueryObject {
   }
 
   find(id) {
+    const {
+      resources,
+      resourceName,
+      klass,
+      _convertToModel,
+      hasMany,
+      belongsTo
+    } = this;
     const { attributes } =
-      this.resources[this.resourceName] &&
-      this.resources[this.resourceName][id];
-    return this._convertToModel({ id, ...attributes });
+      resources[resourceName] && resources[resourceName][id];
+    return _convertToModel(klass, { id, ...attributes }, hasMany, belongsTo);
   }
 
   where(params) {
@@ -92,43 +103,62 @@ export class QueryObject {
       currentIncludes,
       currentResources,
       resources,
-      _flattenRelationships
+      _flattenRelationships,
+      hasMany,
+      belongsTo
     } = this;
 
     return Object.values(
       currentResources
     ).map(({ id, attributes, relationships, types, links }) => {
-      const newFormattedResource = this._convertToModel({ id, ...attributes });
+      const newFormattedResource = this._convertToModel(
+        this.klass,
+        {
+          id,
+          ...attributes
+        },
+        hasMany,
+        belongsTo
+      );
 
       if (!currentIncludes.length) return newFormattedResource;
-      return this._convertToModel({
-        ...newFormattedResource,
-        ..._flattenRelationships(
-          relationships
-        ).reduce((nextRelationshipObjects, { id, type }) => {
-          if (!currentIncludes.includes(type)) return nextRelationshipObjects;
-          if (!(type in nextRelationshipObjects)) {
-            nextRelationshipObjects[type] = [];
-          }
+      return this._convertToModel(
+        this.klass,
+        {
+          ...newFormattedResource,
+          ..._flattenRelationships(
+            relationships
+          ).reduce((nextRelationshipObjects, { id, type }) => {
+            if (!currentIncludes.includes(type)) return nextRelationshipObjects;
+            if (!(type in nextRelationshipObjects)) {
+              nextRelationshipObjects[type] = [];
+            }
 
-          if (!resources[type]) return nextRelationshipObjects;
-          const relationData = resources[type][id];
-          if (!relationData) return nextRelationshipObjects;
-          nextRelationshipObjects[type].push(
-            this._convertToModel({
-              id,
-              ...relationData.attributes
-            })
-          );
+            if (!resources[type]) return nextRelationshipObjects;
+            const relationData = resources[type][id];
+            if (!relationData) return nextRelationshipObjects;
+            const relationClass = this.hasMany.find(klass => {
+              return pluralize(klass.name.toLowerCase()) === type;
+            });
 
-          return nextRelationshipObjects;
-        }, {})
-      });
+            nextRelationshipObjects[type].push(
+              this._convertToModel(relationClass, {
+                id,
+                ...relationData.attributes
+              })
+            );
+
+            return nextRelationshipObjects;
+          }, {})
+        },
+        hasMany,
+        belongsTo
+      );
     });
   }
 
-  _convertToModel(resource) {
-    return new this.klass(resource, this.hasMany, this.belongsTo);
+  _convertToModel(klass, resource, hasMany, belongsTo) {
+    return new klass(resource, hasMany, belongsTo);
   }
 
   // Private

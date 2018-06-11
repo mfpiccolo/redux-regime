@@ -5,14 +5,17 @@ Array [
   Checklist {
     "id": 1,
     "name": "Onboarding Rest",
+    "tasks": [Function],
   },
   Checklist {
     "id": 2,
     "name": "Project Audit Rest",
+    "tasks": [Function],
   },
   Checklist {
     "id": 3,
     "name": "QA Checklist Rest",
+    "tasks": [Function],
   },
 ]
 `;
@@ -21,6 +24,7 @@ exports[`BaseQUery find()  1`] = `
 Checklist {
   "id": 1,
   "name": "Onboarding Rest",
+  "tasks": [Function],
 }
 `;
 
@@ -30,11 +34,11 @@ Array [
     "id": 1,
     "name": "Onboarding Rest",
     "tasks": Array [
-      Checklist {
+      Task {
         "description": "Onboarding REST 1",
         "id": 1,
       },
-      Checklist {
+      Task {
         "description": "Onboarding REST 2",
         "id": 2,
       },
@@ -44,11 +48,11 @@ Array [
     "id": 2,
     "name": "Project Audit Rest",
     "tasks": Array [
-      Checklist {
+      Task {
         "description": "Project Audit Rest 3",
         "id": 3,
       },
-      Checklist {
+      Task {
         "description": "Project Audit Rest 4",
         "id": 4,
       },
@@ -58,11 +62,11 @@ Array [
     "id": 3,
     "name": "QA Checklist Rest",
     "tasks": Array [
-      Checklist {
+      Task {
         "description": "QA Checklist Rest 5",
         "id": 5,
       },
-      Checklist {
+      Task {
         "description": "QA Checklist Rest 6",
         "id": 6,
       },
@@ -75,5 +79,6 @@ exports[`BaseQUery where()  1`] = `
 Checklist {
   "id": 2,
   "name": "Project Audit Rest",
+  "tasks": [Function],
 }
 `;
