@@ -1,65 +1,6 @@
 import pluralize from "pluralize";
 
-export default class BaseModel {
-  static query(resources) {
-    return new QueryObject(
-      this,
-      pluralize(this.name.toLowerCase()),
-      resources,
-      this.hasMany,
-      this.belongsTo
-    );
-  }
-
-  constructor(resources, attributes, hasMany = [], belongsTo = []) {
-    Object.entries(attributes).forEach(([key, value]) => {
-      this[key] = value;
-    });
-    if (hasMany.forEach) {
-      hasMany.forEach(relationship => {
-        const relationshipKey = pluralize(relationship.name.toLowerCase());
-        if (!this[relationshipKey]) {
-          this[relationshipKey] = () => {
-            // This code block reduces the resouces to the current resouce and the related resources
-            // so that it is already scoped after querying through the api
-            // TODO: refactor to _buildRelatedResoureces(this, relation)
-            const currentResourceKey = pluralize(
-              this.constructor.name.toLowerCase()
-            );
-            const resourceClass = this.constructor;
-            const relationshipClass = relationship;
-            const newResources = {
-              ...resources,
-              [currentResourceKey]: resources[currentResourceKey][this.id],
-              [relationshipKey]: relationshipClass
-                .query(resources)
-                .whereRelated(resourceClass, {
-                  id: this.id
-                }).currentResources
-            };
-
-            return new QueryObject(
-              relationship,
-              relationshipKey,
-              newResources,
-              relationship.hasMany,
-              relationship.belongsTo
-            );
-          };
-        }
-      });
-    }
-
-    belongsTo.forEach(relationship => {
-      const relationshipKey = relationship.name.toLowerCase();
-      this[relationshipKey] = () => {
-        // needs to return the related model
-      };
-    });
-  }
-}
-
-export class QueryObject {
+export default class QueryObject {
   constructor(klass, resourceName, resources, hasMany = [], belongsTo = []) {
     this.klass = klass;
     this.resourceName = resourceName;
@@ -91,7 +32,11 @@ export class QueryObject {
     );
   }
 
-  first() {}
+  first() {
+    const { resources, resourceName } = this;
+    const _resources = resources[resourceName];
+    return _resources && _resources[Object.keys(_resources)[0]];
+  }
 
   all() {
     return this;
@@ -132,6 +77,8 @@ export class QueryObject {
   toObjects() {
     return this._reduceCurrentResources("objects");
   }
+
+  // Private
 
   _reduceCurrentResources(reducerType) {
     // TODO: needs to be refactored
@@ -205,8 +152,6 @@ export class QueryObject {
   _convertToObject(klass, resources, resource, hasMany, belongsTo) {
     return resource;
   }
-
-  // Private
 
   _flattenRelationships(relationships) {
     return Object.values(

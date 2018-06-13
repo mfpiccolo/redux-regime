@@ -28,6 +28,33 @@ Checklist {
 }
 `;
 
+exports[`BaseModel models first() returns the first record in the store 1`] = `
+Object {
+  "attributes": Object {
+    "name": "Onboarding Rest",
+  },
+  "id": 1,
+  "links": Object {
+    "self": "http://example.com/checklists/1",
+  },
+  "relationships": Object {
+    "tasks": Object {
+      "data": Array [
+        Object {
+          "id": 1,
+          "type": "tasks",
+        },
+        Object {
+          "id": 2,
+          "type": "tasks",
+        },
+      ],
+    },
+  },
+  "type": "checklists",
+}
+`;
+
 exports[`BaseModel models hasMany() hasMany 1`] = `
 Array [
   Task {
@@ -125,8 +152,8 @@ Array [
 
 exports[`BaseModel objects find()  1`] = `
 Checklist {
-  "id": 1,
-  "name": "Onboarding Rest",
+  "id": 2,
+  "name": "Project Audit Rest",
   "tasks": [Function],
 }
 `;

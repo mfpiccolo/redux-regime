@@ -1,4 +1,5 @@
-import BaseModel, { QueryObject } from "../src/BaseModel";
+import BaseModel from "../src/BaseModel";
+import QueryObject from "../src/QueryObject";
 
 import resources
   from "../__testHelpers__/fixtrues/checklistsAndTasksNormalized";
@@ -19,6 +20,14 @@ describe("BaseModel", () => {
     describe("find()", () => {
       test("", () => {
         const checklist = Checklist.query(resources).find(1);
+        expect(checklist.id).toEqual(1);
+        expect(checklist).toMatchSnapshot();
+      });
+    });
+
+    describe("first()", () => {
+      test("returns the first record in the store", () => {
+        const checklist = Checklist.query(resources).first();
         expect(checklist.id).toEqual(1);
         expect(checklist).toMatchSnapshot();
       });
@@ -78,8 +87,8 @@ describe("BaseModel", () => {
 
     describe("find()", () => {
       test("", () => {
-        const checklist = Checklist.query(resources).find(1);
-        expect(checklist.id).toEqual(1);
+        const checklist = Checklist.query(resources).find(2);
+        expect(checklist.id).toEqual(2);
         expect(checklist).toMatchSnapshot();
       });
     });
