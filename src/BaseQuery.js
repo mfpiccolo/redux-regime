@@ -1,10 +1,8 @@
 import pluralize from "pluralize";
 
 export default class BaseQuery {
-  static hasMany = [];
-  static belongsTo = [];
-
   static query(resources) {
+    // console.log("static query()");
     return new QueryObject(
       this,
       pluralize(this.name.toLowerCase()),
@@ -15,29 +13,47 @@ export default class BaseQuery {
   }
 
   constructor(resources, attributes, hasMany = [], belongsTo = []) {
+    // console.log("BaseQuery constructor()");
     Object.entries(attributes).forEach(([key, value]) => {
       this[key] = value;
     });
-
     if (hasMany.forEach) {
       hasMany.forEach(relationship => {
         const relationshipKey = pluralize(relationship.name.toLowerCase());
         if (!this[relationshipKey]) {
           this[relationshipKey] = () => {
-            const relation = new relationship(
-              relationship,
-              pluralize(relationship.name.toLowerCase()),
-              resources
+            // This code block reduces the resouces to the current resouce and the related resources
+            // so that it is already scoped after querying through the api
+            const currentResourceKey = pluralize(
+              this.constructor.name.toLowerCase()
             );
-            console.log(relation);
-            return relation.where({ id: 1 });
+            const resourceClass = this.constructor;
+            const relationshipClass = relationship;
+            const newResources = {
+              ...resources,
+              [currentResourceKey]: resources[currentResourceKey][this.id],
+              [relationshipKey]: relationshipClass
+                .query(resources)
+                .whereRelated(resourceClass, {
+                  id: this.id
+                }).currentResources
+            };
+
+            return new QueryObject(
+              relationship,
+              relationshipKey,
+              newResources,
+              relationship.hasMany,
+              relationship.belongsTo
+            );
           };
         }
       });
     }
 
     belongsTo.forEach(relationship => {
-      this[relationship] = () => {
+      const relationshipKey = relationship.name.toLowerCase();
+      this[relationshipKey] = () => {
         // needs to return the related model
       };
     });
@@ -46,6 +62,7 @@ export default class BaseQuery {
 
 export class QueryObject {
   constructor(klass, resourceName, resources, hasMany = [], belongsTo = []) {
+    // console.log("QueryObject constructor()");
     this.klass = klass;
     this.resourceName = resourceName;
     this.resources = resources;
@@ -53,14 +70,16 @@ export class QueryObject {
     this.currentResources = {};
     this.hasMany = hasMany;
     this.belongsTo = belongsTo;
+    this._setCurrentResources();
   }
 
   all() {
-    this._setCurrentResources();
+    // console.log("all()");
     return this;
   }
 
   find(id) {
+    // console.log("find()");
     const {
       resources,
       resourceName,
@@ -81,20 +100,22 @@ export class QueryObject {
   }
 
   where(params) {
-    this._setCurrentResources();
+    // console.log("where()");
+
     this._filterAndSetCurrentResourcesByParams(params);
     return this;
   }
 
   whereRelated(relationship, params) {
-    this._setCurrentResources();
+    // console.log("whereRelated()");
+
     const { resourceName } = this;
 
     this.currentResources = relationship
       .query(this.resources)
       .where(params)
       .includes([resourceName])
-      .getData()
+      .toObjects()
       .reduce((newResource, relatedResource) => {
         const relation = relatedResource[resourceName];
         relation.forEach(({ type, id, ...attributes }) => {
@@ -106,16 +127,27 @@ export class QueryObject {
   }
 
   includes(relationshipTypes) {
-    this._setCurrentResources();
+    // console.log("includes()");
+
     this.currentIncludes = relationshipTypes;
     return this;
   }
 
-  models() {
-    return this._reduceCurrentResources();
+  toModels() {
+    // console.log("toModels()");
+    return this._reduceCurrentResources("models");
   }
 
-  _reduceCurrentResources() {
+  toObjects() {
+    // console.log("toObjects()");
+    return this._reduceCurrentResources("objects");
+  }
+
+  _reduceCurrentResources(reducerType) {
+    // console.log("_reduceCurrentResources()");
+    const conversion = reducerType === "models"
+      ? this._convertToModel
+      : this._convertToObject;
     const {
       currentIncludes,
       currentResources,
@@ -128,7 +160,7 @@ export class QueryObject {
     return Object.values(
       currentResources
     ).map(({ id, attributes, relationships, types, links }) => {
-      const newFormattedResource = this._convertToModel(
+      const newFormattedResource = conversion(
         this.klass,
         resources,
         {
@@ -140,7 +172,7 @@ export class QueryObject {
       );
 
       if (!currentIncludes.length) return newFormattedResource;
-      return this._convertToModel(
+      return conversion(
         this.klass,
         resources,
         {
@@ -161,7 +193,7 @@ export class QueryObject {
             });
 
             nextRelationshipObjects[type].push(
-              this._convertToModel(relationClass, resources, {
+              conversion(relationClass, resources, {
                 id,
                 ...relationData.attributes
               })
@@ -177,12 +209,19 @@ export class QueryObject {
   }
 
   _convertToModel(klass, resources, resource, hasMany, belongsTo) {
+    // console.log("_convertToModel()");
     return new klass(resources, resource, hasMany, belongsTo);
+  }
+
+  _convertToObject(klass, resources, resource, hasMany, belongsTo) {
+    // console.log("convertToObject()");
+    return resource;
   }
 
   // Private
 
   _flattenRelationships(relationships) {
+    // console.log("flattenRelationships()");
     return Object.values(
       relationships
     ).reduce((nextRelationships, { data }) => {
@@ -191,12 +230,14 @@ export class QueryObject {
   }
 
   _setCurrentResources() {
+    // console.log("_setCurrentResources()");
     if (this._isEmpty(this.currentResources)) {
       this.currentResources = this.resources[this.resourceName];
     }
   }
 
   _filterAndSetCurrentResourcesByParams(params) {
+    // console.log("_filterAndSetCurrentResources()");
     const resourcesByID = Object.entries(
       this.currentResources
     ).reduce((newResource, [id, resource]) => {
@@ -207,14 +248,18 @@ export class QueryObject {
   }
 
   _filterResourceByParams(params, newResource, resource, id) {
+    // console.log("filterResourcesByParams()");
     Object.entries(params).forEach(([key, value]) => {
-      if (resource.attributes[key] === value) {
+      if (key === "id" && resource.id === value) {
+        newResource[id] = resource;
+      } else if (resource.attributes[key] === value) {
         newResource[id] = resource;
       }
     });
   }
 
   _isEmpty(obj) {
+    // console.log("isEmpty()");
     if (
       obj === null ||
       obj === undefined ||

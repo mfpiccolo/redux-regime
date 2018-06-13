@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BaseQUery all()  1`] = `
+exports[`BaseQUery models all()  1`] = `
 Array [
   Checklist {
     "id": 1,
@@ -20,7 +20,7 @@ Array [
 ]
 `;
 
-exports[`BaseQUery find()  1`] = `
+exports[`BaseQUery models find()  1`] = `
 Checklist {
   "id": 1,
   "name": "Onboarding Rest",
@@ -28,7 +28,22 @@ Checklist {
 }
 `;
 
-exports[`BaseQUery includes()  1`] = `
+exports[`BaseQUery models hasMany() hasMany 1`] = `
+Array [
+  Task {
+    "checklist": [Function],
+    "description": "Onboarding REST 1",
+    "id": 1,
+  },
+  Task {
+    "checklist": [Function],
+    "description": "Onboarding REST 2",
+    "id": 2,
+  },
+]
+`;
+
+exports[`BaseQUery models includes()  1`] = `
 Array [
   Checklist {
     "id": 1,
@@ -75,10 +90,97 @@ Array [
 ]
 `;
 
-exports[`BaseQUery where()  1`] = `
+exports[`BaseQUery models where() filter by id 1`] = `
+Checklist {
+  "id": 3,
+  "name": "QA Checklist Rest",
+  "tasks": [Function],
+}
+`;
+
+exports[`BaseQUery models where() filter by name 1`] = `
 Checklist {
   "id": 2,
   "name": "Project Audit Rest",
   "tasks": [Function],
+}
+`;
+
+exports[`BaseQUery objects all()  1`] = `
+Array [
+  Object {
+    "id": 1,
+    "name": "Onboarding Rest",
+  },
+  Object {
+    "id": 2,
+    "name": "Project Audit Rest",
+  },
+  Object {
+    "id": 3,
+    "name": "QA Checklist Rest",
+  },
+]
+`;
+
+exports[`BaseQUery objects find()  1`] = `
+Checklist {
+  "id": 1,
+  "name": "Onboarding Rest",
+  "tasks": [Function],
+}
+`;
+
+exports[`BaseQUery objects includes()  1`] = `
+Array [
+  Object {
+    "id": 1,
+    "name": "Onboarding Rest",
+    "tasks": Array [
+      Object {
+        "description": "Onboarding REST 1",
+        "id": 1,
+      },
+      Object {
+        "description": "Onboarding REST 2",
+        "id": 2,
+      },
+    ],
+  },
+  Object {
+    "id": 2,
+    "name": "Project Audit Rest",
+    "tasks": Array [
+      Object {
+        "description": "Project Audit Rest 3",
+        "id": 3,
+      },
+      Object {
+        "description": "Project Audit Rest 4",
+        "id": 4,
+      },
+    ],
+  },
+  Object {
+    "id": 3,
+    "name": "QA Checklist Rest",
+    "tasks": Array [
+      Object {
+        "description": "QA Checklist Rest 5",
+        "id": 5,
+      },
+      Object {
+        "description": "QA Checklist Rest 6",
+        "id": 6,
+      },
+    ],
+  },
+]
+`;
+
+exports[`BaseQUery objects where()  1`] = `
+Object {
+  "id": 2,
+  "name": "Project Audit Rest",
 }
 `;
