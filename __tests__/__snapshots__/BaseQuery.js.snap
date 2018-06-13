@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BaseQUery models all()  1`] = `
+exports[`BaseModel models all()  1`] = `
 Array [
   Checklist {
     "id": 1,
@@ -20,7 +20,7 @@ Array [
 ]
 `;
 
-exports[`BaseQUery models find()  1`] = `
+exports[`BaseModel models find()  1`] = `
 Checklist {
   "id": 1,
   "name": "Onboarding Rest",
@@ -28,7 +28,7 @@ Checklist {
 }
 `;
 
-exports[`BaseQUery models hasMany() hasMany 1`] = `
+exports[`BaseModel models hasMany() hasMany 1`] = `
 Array [
   Task {
     "checklist": [Function],
@@ -43,7 +43,7 @@ Array [
 ]
 `;
 
-exports[`BaseQUery models includes()  1`] = `
+exports[`BaseModel models includes()  1`] = `
 Array [
   Checklist {
     "id": 1,
@@ -90,7 +90,7 @@ Array [
 ]
 `;
 
-exports[`BaseQUery models where() filter by id 1`] = `
+exports[`BaseModel models where() filter by id 1`] = `
 Checklist {
   "id": 3,
   "name": "QA Checklist Rest",
@@ -98,7 +98,7 @@ Checklist {
 }
 `;
 
-exports[`BaseQUery models where() filter by name 1`] = `
+exports[`BaseModel models where() filter by name 1`] = `
 Checklist {
   "id": 2,
   "name": "Project Audit Rest",
@@ -106,7 +106,7 @@ Checklist {
 }
 `;
 
-exports[`BaseQUery objects all()  1`] = `
+exports[`BaseModel objects all()  1`] = `
 Array [
   Object {
     "id": 1,
@@ -123,7 +123,7 @@ Array [
 ]
 `;
 
-exports[`BaseQUery objects find()  1`] = `
+exports[`BaseModel objects find()  1`] = `
 Checklist {
   "id": 1,
   "name": "Onboarding Rest",
@@ -131,7 +131,7 @@ Checklist {
 }
 `;
 
-exports[`BaseQUery objects includes()  1`] = `
+exports[`BaseModel objects includes()  1`] = `
 Array [
   Object {
     "id": 1,
@@ -178,7 +178,7 @@ Array [
 ]
 `;
 
-exports[`BaseQUery objects where()  1`] = `
+exports[`BaseModel objects where()  1`] = `
 Object {
   "id": 2,
   "name": "Project Audit Rest",

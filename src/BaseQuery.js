@@ -1,8 +1,7 @@
 import pluralize from "pluralize";
 
-export default class BaseQuery {
+export default class BaseModel {
   static query(resources) {
-    // console.log("static query()");
     return new QueryObject(
       this,
       pluralize(this.name.toLowerCase()),
@@ -13,7 +12,6 @@ export default class BaseQuery {
   }
 
   constructor(resources, attributes, hasMany = [], belongsTo = []) {
-    // console.log("BaseQuery constructor()");
     Object.entries(attributes).forEach(([key, value]) => {
       this[key] = value;
     });
@@ -24,6 +22,7 @@ export default class BaseQuery {
           this[relationshipKey] = () => {
             // This code block reduces the resouces to the current resouce and the related resources
             // so that it is already scoped after querying through the api
+            // TODO: refactor to _buildRelatedResoureces(this, relation)
             const currentResourceKey = pluralize(
               this.constructor.name.toLowerCase()
             );
@@ -62,7 +61,6 @@ export default class BaseQuery {
 
 export class QueryObject {
   constructor(klass, resourceName, resources, hasMany = [], belongsTo = []) {
-    // console.log("QueryObject constructor()");
     this.klass = klass;
     this.resourceName = resourceName;
     this.resources = resources;
@@ -73,13 +71,7 @@ export class QueryObject {
     this._setCurrentResources();
   }
 
-  all() {
-    // console.log("all()");
-    return this;
-  }
-
   find(id) {
-    // console.log("find()");
     const {
       resources,
       resourceName,
@@ -99,16 +91,18 @@ export class QueryObject {
     );
   }
 
-  where(params) {
-    // console.log("where()");
+  first() {}
 
+  all() {
+    return this;
+  }
+
+  where(params) {
     this._filterAndSetCurrentResourcesByParams(params);
     return this;
   }
 
   whereRelated(relationship, params) {
-    // console.log("whereRelated()");
-
     const { resourceName } = this;
 
     this.currentResources = relationship
@@ -127,24 +121,20 @@ export class QueryObject {
   }
 
   includes(relationshipTypes) {
-    // console.log("includes()");
-
     this.currentIncludes = relationshipTypes;
     return this;
   }
 
   toModels() {
-    // console.log("toModels()");
     return this._reduceCurrentResources("models");
   }
 
   toObjects() {
-    // console.log("toObjects()");
     return this._reduceCurrentResources("objects");
   }
 
   _reduceCurrentResources(reducerType) {
-    // console.log("_reduceCurrentResources()");
+    // TODO: needs to be refactored
     const conversion = reducerType === "models"
       ? this._convertToModel
       : this._convertToObject;
@@ -209,19 +199,16 @@ export class QueryObject {
   }
 
   _convertToModel(klass, resources, resource, hasMany, belongsTo) {
-    // console.log("_convertToModel()");
     return new klass(resources, resource, hasMany, belongsTo);
   }
 
   _convertToObject(klass, resources, resource, hasMany, belongsTo) {
-    // console.log("convertToObject()");
     return resource;
   }
 
   // Private
 
   _flattenRelationships(relationships) {
-    // console.log("flattenRelationships()");
     return Object.values(
       relationships
     ).reduce((nextRelationships, { data }) => {
@@ -230,14 +217,12 @@ export class QueryObject {
   }
 
   _setCurrentResources() {
-    // console.log("_setCurrentResources()");
     if (this._isEmpty(this.currentResources)) {
       this.currentResources = this.resources[this.resourceName];
     }
   }
 
   _filterAndSetCurrentResourcesByParams(params) {
-    // console.log("_filterAndSetCurrentResources()");
     const resourcesByID = Object.entries(
       this.currentResources
     ).reduce((newResource, [id, resource]) => {
@@ -248,7 +233,6 @@ export class QueryObject {
   }
 
   _filterResourceByParams(params, newResource, resource, id) {
-    // console.log("filterResourcesByParams()");
     Object.entries(params).forEach(([key, value]) => {
       if (key === "id" && resource.id === value) {
         newResource[id] = resource;
@@ -259,7 +243,6 @@ export class QueryObject {
   }
 
   _isEmpty(obj) {
-    // console.log("isEmpty()");
     if (
       obj === null ||
       obj === undefined ||

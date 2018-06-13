@@ -1,7 +1,7 @@
-import BaseQuery from "../../src/BaseQuery";
+import BaseModel from "../../src/BaseModel";
 import Task from "./Task";
 
-export default class Checklist extends BaseQuery {
+export default class Checklist extends BaseModel {
   static get belongsTo() {
     return [];
   }

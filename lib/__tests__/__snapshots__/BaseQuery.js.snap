@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BaseQUery all()  1`] = `
+exports[`BaseModel all()  1`] = `
 Array [
   Object {
     "id": 1,
@@ -17,14 +17,14 @@ Array [
 ]
 `;
 
-exports[`BaseQUery find()  1`] = `
+exports[`BaseModel find()  1`] = `
 Object {
   "id": 1,
   "name": "Onboarding Rest",
 }
 `;
 
-exports[`BaseQUery hasMany()  1`] = `
+exports[`BaseModel hasMany()  1`] = `
 Array [
   Object {
     "description": "Onboarding REST 1",
@@ -53,7 +53,7 @@ Array [
 ]
 `;
 
-exports[`BaseQUery includes()  1`] = `
+exports[`BaseModel includes()  1`] = `
 Array [
   Object {
     "id": 1,
@@ -106,7 +106,7 @@ Array [
 ]
 `;
 
-exports[`BaseQUery where()  1`] = `
+exports[`BaseModel where()  1`] = `
 Object {
   "id": 2,
   "name": "Project Audit Rest",

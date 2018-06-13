@@ -3,11 +3,11 @@ import {
   normalizeAndMergePayload,
   dispatchUpdateResourcesByID
 } from "./lib/actions";
-import BaseQuery from "./lib/BaseQuery";
+import BaseModel from "./lib/BaseModel";
 
 export {
   normalizeAndMergePayload,
   dispatchUpdateResourcesByID,
   resourceReducer,
-  BaseQuery
+  BaseModel
 };
