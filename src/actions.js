@@ -46,7 +46,8 @@ const dispatchUpdateResourcesByID = (
   if (graphQlPayload) {
     _dispatchAddOrReplaceAllGraphQlResources(
       dispatch,
-      "checklists",
+      // TODO: fix this hard coded value
+      "<resource-name>",
       graphQlNormalize(graphQlPayload)
     );
   }

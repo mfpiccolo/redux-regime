@@ -1,8 +1,6 @@
 import merge from "deepmerge";
 
-const initialState = {
-  checklists: {}
-};
+const initialState = {};
 
 export default function resources(state = initialState, action) {
   const { resourceType } = action;
