@@ -162,7 +162,7 @@ export default class QueryObject {
   }
 
   _setCurrentResources() {
-    if (this._isEmpty(this.currentResources)) {
+    if (this._isEmpty(this.currentResources) && this.resources) {
       this.currentResources = this.resources[this.resourceName];
     }
   }

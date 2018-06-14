@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BaseModel models all()  1`] = `
+exports[`BaseModel models all() Returns a list of models 1`] = `
 Array [
   Checklist {
     "id": 1,
@@ -20,7 +20,7 @@ Array [
 ]
 `;
 
-exports[`BaseModel models find()  1`] = `
+exports[`BaseModel models find() returns a single model 1`] = `
 Checklist {
   "id": 1,
   "name": "Onboarding Rest",
@@ -125,7 +125,7 @@ Checklist {
 }
 `;
 
-exports[`BaseModel models where() filter by name 1`] = `
+exports[`BaseModel models where() filters by name 1`] = `
 Checklist {
   "id": 2,
   "name": "Project Audit Rest",

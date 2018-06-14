@@ -5,8 +5,4 @@ export default class Task extends BaseModel {
   static get belongsTo() {
     return [Checklist];
   }
-
-  randomMethod() {
-    return "randomthing";
-  }
 }

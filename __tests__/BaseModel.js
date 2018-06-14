@@ -10,15 +10,19 @@ describe("BaseModel", () => {
     expect(BaseModel.query(resources)).toBeInstanceOf(QueryObject);
   });
 
+  test("handle undefined resources", () => {
+    expect(Checklist.query().all().toModels()).toEqual([]);
+  });
+
   describe("models", () => {
     describe("all()", () => {
-      test("", () => {
+      test("Returns a list of models", () => {
         expect(Checklist.query(resources).all().toModels()).toMatchSnapshot();
       });
     });
 
     describe("find()", () => {
-      test("", () => {
+      test("returns a single model", () => {
         const checklist = Checklist.query(resources).find(1);
         expect(checklist.id).toEqual(1);
         expect(checklist).toMatchSnapshot();
@@ -34,7 +38,7 @@ describe("BaseModel", () => {
     });
 
     describe("where()", () => {
-      test("filter by name", () => {
+      test("filters by name", () => {
         const checklist = Checklist.query(resources)
           .where({ name: "Project Audit Rest" })
           .toModels()[0];
